@@ -1,0 +1,20 @@
+#!/bin/bash
+
+help() {
+  echo "Usage:"
+  echo "  zdaemon <action> [options...] [service]"
+  echo ""
+  echo "  Actions:"
+  echo "    create    Create a new daemon service"
+  echo "    remove    Remove a new daemon service"
+  echo "    start     Start daemon service"
+  echo "    stop      Stop daemon service"
+  echo "    restart   Restart daemon service"
+  echo "    status    Status daemon service"
+  echo "    logs      Get daemon service logs"
+  echo "    reaload   Reload daemon service"
+  echo "    enable    Enable daemon service when system start up"
+  echo "    disable   Disable daemon service when system start up"
+}
+
+help

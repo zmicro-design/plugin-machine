@@ -1,0 +1,14 @@
+#!/bin/bash
+
+disk_usage=$(zmachine disk usage)
+is_health=$(zmachine disk healthcheck)
+
+log_info "Disk Usage: ${disk_usage}%"
+
+if [ "$is_health" = "true" ]; then
+  log_success "Disk Healthy: True"
+else
+  log_error "Disk Healthy: False"
+  log_error "WARN: please check your disk first"
+  exit 1
+fi
