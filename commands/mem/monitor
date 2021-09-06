@@ -1,6 +1,7 @@
 #!/bin/bash
 
 DEFAULT_THRESHOLD_PERCENT=90
+DEFAULT_MAX_CHECK_PEROID=10
 
 help() {
   echo "Usage:"
@@ -67,7 +68,8 @@ core() {
       echo "[$(timestamp)] memory usage: $usage%"
     fi
 
-    sleep 1
+    local period=$((DEFAULT_MAX_CHECK_PEROID - $usage / $DEFAULT_MAX_CHECK_PEROID))
+    sleep $period
   done
 }
 
