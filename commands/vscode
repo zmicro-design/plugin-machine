@@ -13,9 +13,9 @@ vscode_monitor() {
 
 vscode_kill() {
   if [ "$(os_is_centos)" = "true" ]; then
-    ps -Af | grep vscode-server | awk '{print $2}' | xargs kill
+    ps -Af | grep vscode-server | awk '{print $2}' | xargs kill >> /dev/null 2>&1
   elif [ "$(os_is_ubuntu)" = "true" ]; then
-    ps -aux | grep vscode-server | awk '{print $2}' | xargs kill
+    ps -aux | grep vscode-server | awk '{print $2}' | xargs kill >> /dev/null 2>&1
   else
     log_error "Unknown system ..."
     exit 1
