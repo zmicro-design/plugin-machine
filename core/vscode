@@ -1,0 +1,108 @@
+#!/bin/bash
+
+vscode::get_progresses() {
+  if [ "$(os_is_centos)" = "true" ]; then
+    ps -Af | grep vscode-server | awk '{print $2}'
+  elif [ "$(os_is_ubuntu)" = "true" ]; then
+    ps -aux | grep vscode-server | awk '{print $2}'
+  else
+    log_error "[vscode:get_progresses] unknown system ..."
+    exit 1
+  fi
+}
+
+vscode::kill() {
+  local progresses=$(vscode::get_progresses)
+  vscode::usage $progresses
+
+  clean_progress() {
+    local pid=$2
+    if [ "$(os_is_pid_valid $pid)" = "false" ]; then
+      return
+    fi
+
+    local pid_memory=$(unit_kb_2_mb $(os_get_pid_memory $pid))
+    log_info "[vscode::kill] kill vscoode pid: $pid (${pid_memory}M)"
+    os_kill_pid $pid
+  }
+
+  # echo $progresses | xargs kill >> /dev/null
+  # kill -9 $progresses
+
+  array_each clean_progress ${progresses}
+}
+
+vscode::monitor() {
+  zmachine mem monitor --exec "echo 'vscode memory 90 warning'" -t 90
+}
+
+vscode::protect() {
+  zmachine mem monitor --exec "zmachine vscode kill" -t 90
+}
+
+vscode::count_progresses() {
+  local progresses=$@
+  if [ -z "$progresses" ]; then
+    progresses=$(vscode::get_progresses)
+  fi
+
+  echo $(($(array_length $progresses) - 1))
+}
+
+vscode::memory() {
+  local progresses=$@
+  if [ -z "$progresses" ]; then
+    progresses=$(vscode::get_progresses)
+  fi
+
+  if [ -z "$progresses" ]; then
+    log_error "vscode progress not found"
+    exit 1
+  fi
+
+  local total=0
+  get_progress_memory() {
+    local progress=$2
+    if [ "$(os_is_pid_valid $progress)" = "false" ]; then
+      return
+    fi
+
+    local one=$(os_get_pid_memory $progress)
+    # echo "$progress $one"
+    total=$(($total + $one))
+  }
+
+  # @TODO cannot use array for multiple line strings
+  array_each get_progress_memory ${progresses}
+
+  # for progress in ${progresses[@]}; do
+  #   local one=$(os_get_pid_memory $progress)
+  #   # echo "$progress $one"
+  #   total=$(($total + $one))
+  # done
+
+  echo $(($total / 1024))
+}
+
+vscode::usage() {
+  local progresses=$@
+  if [ -z "$progresses" ]; then
+    progresses=$(vscode::get_progresses)
+  fi
+  
+  local memory=$(vscode::memory $progresses)
+  local progress_count=$(vscode::count_progresses $progresses)
+  local system_memory_used=$(os_get_system_memory_used)
+  log_warn "vscode 清理(系统内存使用率：$system_memory_used% vscode 占用内存: ${memory}M, 进程数: $progress_count)"
+}
+
+export -f vscode::get_progresses
+export -f vscode::count_progresses
+
+export -f vscode::memory
+
+export -f vscode::usage
+
+export -f vscode::kill
+export -f vscode::monitor
+export -f vscode::protect

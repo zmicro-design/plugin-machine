@@ -1,0 +1,13 @@
+#!/bin/bash
+
+os_get_system_memory_used() {
+  local TOTAL=$(free -m | grep Mem | awk '{print $2}')
+  local AVAILABLE=$(free -m | grep Mem | awk '{print $7}')
+  local USED=$((TOTAL - AVAILABLE))
+
+  local usage=$(($USED * 100 / $TOTAL))
+
+  echo -e "${usage}"
+}
+
+export -f os_get_system_memory_used

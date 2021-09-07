@@ -1,9 +1,19 @@
 #!/bin/bash
 
-TOTAL=$(free -m | grep Mem | awk '{print $2}')
-AVAILABLE=$(free -m | grep Mem | awk '{print $7}')
-USED=$((TOTAL - AVAILABLE))
+DEFAULT_THRESHOLD_PERCENT=90
+DEFAULT_MAX_CHECK_PEROID=10
 
-usage=$(($USED * 100 / $TOTAL))
+help() {
+  echo "Usage:"
+  echo "  zmachine mem usage"
+}
 
-echo -e "${usage}"
+core() {
+  os_get_system_memory_used
+}
+
+run() {
+  core $@
+}
+
+run $@

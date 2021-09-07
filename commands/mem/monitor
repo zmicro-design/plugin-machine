@@ -64,11 +64,18 @@ core() {
     if [ $usage -gt $threshold_percent ]; then
       log_info "[$(timestamp)] memory usage(${usage}%) reached threshold percent($kill_percent%), run: ${command}"
       eval $command
+      
+      # 执行完任务要即使休息，接着干容易疲劳
+      sleep 5
     else
       echo "[$(timestamp)] memory usage: $usage%"
     fi
 
     local period=$((DEFAULT_MAX_CHECK_PEROID - $usage / $DEFAULT_MAX_CHECK_PEROID))
+    if [ $period -lt 1 ]; then
+      period=1
+    fi
+
     sleep $period
   done
 }
