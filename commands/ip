@@ -7,7 +7,7 @@ help() {
 }
 
 dependencies_check() {
-  which dig >> /dev/null 2>&1
+  which dig >>/dev/null 2>&1
 
   if [ "$?" = "0" ]; then
     return
@@ -26,7 +26,7 @@ dependencies_check() {
 core() {
   if [[ $# -eq 0 ]]; then
     # Check Internal IP
-    local internalip=$(get_internal_ip)
+    # local internalip=$(get_internal_ip)
     # Check External IP
     local externalip=$(get_external_ip)
 
@@ -64,6 +64,12 @@ core() {
 }
 
 get_internal_ip() {
+  # reference: https://apple.stackexchange.com/questions/20547/how-do-i-find-my-ip-address-from-the-command-line
+  if [ "$(os_is_macos)" = "true" ]; then
+    ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}'
+    return
+  fi
+
   echo $(hostname -I)
 }
 
