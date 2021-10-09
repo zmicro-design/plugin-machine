@@ -33,11 +33,11 @@ vscode::kill() {
 }
 
 vscode::monitor() {
-  zmachine mem monitor --exec "echo 'vscode memory 90 warning'" -t 90
+  zmachine mem monitor --exec "echo 'vscode memory 95 warning'" -t 95
 }
 
 vscode::protect() {
-  zmachine mem monitor --exec "zmachine vscode kill" -t 90
+  zmachine mem monitor --exec "zmachine vscode kill" -t 95
 }
 
 vscode::count_progresses() {
