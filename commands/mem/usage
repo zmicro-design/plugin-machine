@@ -9,7 +9,7 @@ help() {
 }
 
 core() {
-  os_get_system_memory_used
+  os_memory_usage
 }
 
 run() {
