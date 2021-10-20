@@ -1,7 +1,6 @@
 #!/bin/bash
 
 DISK_THRESHOLD=80
-
 disk_usage=$(zmachine disk usage)
 
 if [ $disk_usage -lt $DISK_THRESHOLD ]; then

@@ -2,7 +2,8 @@
 
 help() {
   echo "Usage:"
-  echo "  zmachine vscode monitor restart"
+  echo "  zmachine vscode <args...>"
+  echo ""
 }
 
 core() {
@@ -11,9 +12,7 @@ core() {
     exit 0
   fi
 
-  local service_name="vscode_protect"
-
-  zdaemon restart $service_name
+  zvscode $@
 }
 
 run() {
