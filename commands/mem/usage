@@ -1,15 +1,12 @@
 #!/bin/bash
 
-DEFAULT_THRESHOLD_PERCENT=90
-DEFAULT_MAX_CHECK_PEROID=10
-
 help() {
   echo "Usage:"
   echo "  zmachine mem usage"
 }
 
 core() {
-  os_memory_usage
+  os_memory_usage percent
 }
 
 run() {

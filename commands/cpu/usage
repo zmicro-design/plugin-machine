@@ -1,5 +1,16 @@
 #!/bin/bash
 
-usage=`top -bn 1 -i -c | grep Cpu | awk '{print $2}'`
+help() {
+  echo "Usage:"
+  echo "  zmachine mem usage"
+}
 
-echo -e "${usage}"
+core() {
+  os_cpu_usage percent
+}
+
+run() {
+  core $@
+}
+
+run $@

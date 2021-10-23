@@ -1,21 +1,21 @@
 #!/bin/bash
 
-os_memory_usage() {
-  local TOTAL=$(free -m | grep Mem | awk '{print $2}')
-  local AVAILABLE=$(free -m | grep Mem | awk '{print $7}')
-  local USED=$((TOTAL - AVAILABLE))
+# os_memory_usage() {
+#   local TOTAL=$(free -m | grep Mem | awk '{print $2}')
+#   local AVAILABLE=$(free -m | grep Mem | awk '{print $7}')
+#   local USED=$((TOTAL - AVAILABLE))
 
-  local usage=$(($USED * 100 / $TOTAL))
+#   local usage=$(($USED * 100 / $TOTAL))
 
-  echo -e "${usage}"
-}
+#   echo -e "${usage}"
+# }
 
-os_cpu_usage() {
-  local usage=`top -bn 1 -i -c | grep Cpu | awk '{print $2}'`
+# os_cpu_usage() {
+#   local usage=`top -bn 1 -i -c | grep Cpu | awk '{print $2}'`
 
-  echo -e "${usage}"
-}
+#   echo -e "${usage}"
+# }
 
 
-export -f os_memory_usage
-export -f os_cpu_usage
+# export -f os_memory_usage
+# export -f os_cpu_usage
