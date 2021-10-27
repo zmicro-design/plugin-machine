@@ -47,7 +47,7 @@ create_veth() {
 
   sudo ip link show ${veth_name_outer} >>/dev/null 2>&1
   if [ "$?" = "0" ]; then
-    log_success "veth ${veth_name} already exist."
+    log::success "veth ${veth_name} already exist."
     exit 0
   fi
 
@@ -70,7 +70,7 @@ create_veth() {
     sudo ip netns exec ${NETWORK_NAMESPACE} ip route add default via $NETWORK_GATEWAY
   fi
 
-  log_success "veth ${veth_name} created."
+  log::success "veth ${veth_name} created."
 }
 
 create() {
@@ -82,7 +82,7 @@ create() {
     create_namespace
   fi
 
-  log_info "create network(${network_name}): ${network_ip}"
+  log::info "create network(${network_name}): ${network_ip}"
 
   # #
   create_veth $network_name $network_ip
@@ -102,13 +102,13 @@ core() {
 
   local network_ip=$1
   if [ "$network_ip" = "" ]; then
-    log_error "ip is required"
+    log::error "ip is required"
     exit 1
   fi
 
-  # local network_name="zmicro_$(string_replace $network_ip .)"
-  local last=$(string_split_last_element . $network_ip)
-  local last_second=$(string_split_last_second_element . $network_ip)
+  # local network_name="zmicro_$(string::replace $network_ip .)"
+  local last=$(string::split_last_element . $network_ip)
+  local last_second=$(string::split_last_second_element . $network_ip)
   local network_name="zmicro_${last_second}${last}"
 
   create $network_name $network_ip

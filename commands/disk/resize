@@ -72,4 +72,4 @@ fi
 
 cat /etc/fstab
 echo ""
-log_error "Error: Unknown File System"
+log::error "Error: Unknown File System"

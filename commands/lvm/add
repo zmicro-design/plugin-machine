@@ -29,12 +29,12 @@ add() {
   local deviceName=$(echo $device | sed -e "s%/dev/%%g")
 
   if [ "$VG_NAME" = "" ] || [ "$LV_NAME" = "" ] || [ "$MOUNT_PATH" = "" ]; then
-    log_error "lvm config not load"
+    log::error "lvm config not load"
     exit 1
   fi
 
   if [ "$(is_device $device)" = "false" ]; then
-    log_error "device should start with /dev/*, but found: ${device}"
+    log::error "device should start with /dev/*, but found: ${device}"
     exit 1
   fi
 
@@ -78,7 +78,7 @@ add() {
   # 6.refresh device size
   sudo resize2fs /dev/vgdevice/lvdevice >> /dev/null 2>&1
 
-  log_success "add lvm device success: ${device}(size: ${size})"
+  log::success "add lvm device success: ${device}(size: ${size})"
 }
 
 help() {
@@ -99,7 +99,7 @@ core() {
 
   local device=$1
   if [ "$device" = "" ]; then
-    log_error "device is required"
+    log::error "device is required"
     exit 1
   fi
 

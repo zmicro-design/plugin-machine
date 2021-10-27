@@ -9,12 +9,12 @@ remove_eth() {
 
   sudo ip link show ${veth_name_outer} >>/dev/null 2>&1
   if [ "$?" != "0" ]; then
-    log_error "veth ${veth_name} not found."
+    log::error "veth ${veth_name} not found."
     exit 0
   fi
 
   sudo ip netns exec $NETWORK_NAMESPACE ip link del ${veth_name_inner}
-  log_success "veth ${veth_name} removed."
+  log::success "veth ${veth_name} removed."
 }
 
 help() {
@@ -31,14 +31,14 @@ core() {
 
   local network_ip=$1
   if [ "$network_ip" = "" ]; then
-    log_error "ip is required"
+    log::error "ip is required"
     exit 1
   fi
 
-  # local network_name="zmicro_$(string_replace $network_ip . _)"
+  # local network_name="zmicro_$(string::replace $network_ip . _)"
 
-  local last=$(string_split_last_element . $network_ip)
-  local last_second=$(string_split_last_second_element . $network_ip)
+  local last=$(string::split_last_element . $network_ip)
+  local last_second=$(string::split_last_second_element . $network_ip)
   local network_name="zmicro_${last_second}${last}"
 
   remove_eth $network_name $network_ip

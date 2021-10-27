@@ -25,7 +25,7 @@ is_device() {
 
 is_mounted() {
   if [ "$MOUNT_PATH" = "" ]; then
-    log_error "error: config MOUNT_PATH not load"
+    log::error "error: config MOUNT_PATH not load"
     exit 1
   fi
 
@@ -39,14 +39,14 @@ is_mounted() {
 
 remove() {
   if [ "$(is_mounted)" = "true" ]; then
-    log_error "error: lvm is being mounted, you cannot remove device in mounted status"
-    log_error "  Data is important, so your should stop processes in $MOUNT_PATH,"
-    log_error "   then unmount device: /dev/$VG_NAME/$LV_NAME"
-    log_error "  "
-    log_error "  How to unmount:"
-    log_error "    $ sudo unmount /dev/$VG_NAME/$LV_NAME"
-    log_error " "
-    log_error "  Then try to remove device again"
+    log::error "error: lvm is being mounted, you cannot remove device in mounted status"
+    log::error "  Data is important, so your should stop processes in $MOUNT_PATH,"
+    log::error "   then unmount device: /dev/$VG_NAME/$LV_NAME"
+    log::error "  "
+    log::error "  How to unmount:"
+    log::error "    $ sudo unmount /dev/$VG_NAME/$LV_NAME"
+    log::error " "
+    log::error "  Then try to remove device again"
     exit 1
   fi
 
@@ -55,37 +55,37 @@ remove() {
   local deviceName=$(echo $device | sed -e "s%/dev/%%g")
 
   if [ "$VG_NAME" = "" ] || [ "$LV_NAME" = "" ] || [ "$MOUNT_PATH" = "" ]; then
-    log_error "lvm config not load"
+    log::error "lvm config not load"
     exit 1
   fi
 
   if [ "$(is_device $device)" = "false" ]; then
-    log_error "device should start with /dev/*, but found: ${device}"
+    log::error "device should start with /dev/*, but found: ${device}"
     exit 1
   fi
 
   # 1.initial physical volume
   sudo pvs | grep $device >> /dev/null 2>&1
   if [ "$?" != "0" ]; then
-    log_success "lvm device(${device}) not found, maybe removed before"
+    log::success "lvm device(${device}) not found, maybe removed before"
     exit 0
   fi
 
   # 1.remove from volumn group(vg)
   sudo vgreduce $VG_NAME $device
   if [ "$?" != "0" ]; then
-    log_error "error: failed to remove lvm physical device from volume group"
+    log::error "error: failed to remove lvm physical device from volume group"
     exit 1
   fi
 
   # 2.remove from physical volume(pv)
   sudo pvremove $device
   if [ "$?" != "0" ]; then
-    log_error "error: failed to remove lvm physical device from physical volume"
+    log::error "error: failed to remove lvm physical device from physical volume"
     exit 1
   fi
 
-  log_success "remove lvm device success: ${device}"
+  log::success "remove lvm device success: ${device}"
 }
 
 help() {
@@ -106,7 +106,7 @@ core() {
 
   local device=$1
   if [ "$device" = "" ]; then
-    log_error "device is required"
+    log::error "device is required"
     exit 1
   fi
 

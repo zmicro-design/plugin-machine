@@ -6,7 +6,7 @@ help() {
 }
 
 core() {
-  os_memory_usage percent
+  os::memory_usage percent
 }
 
 run() {

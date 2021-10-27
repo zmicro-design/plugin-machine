@@ -9,8 +9,8 @@ help() {
 }
 
 dependency_check() {
-  if [ "$(plugin_exist ${PLUGIN})" = "false" ]; then
-    log_info "plugin ${PLUGIN} is required, installing ..."
+  if [ "$(plugin::exist ${PLUGIN})" = "false" ]; then
+    log::info "plugin ${PLUGIN} is required, installing ..."
 
     zmicro plugin install ${PLUGIN}
   fi

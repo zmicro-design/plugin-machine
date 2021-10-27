@@ -62,7 +62,7 @@ core() {
   while true; do
     local usage=$(zmachine mem usage)
     if [ $usage -gt $threshold_percent ]; then
-      log_info "[$(timestamp)] memory usage(${usage}%) reached threshold percent($kill_percent%), run: ${command}"
+      log::info "[$(timestamp)] memory usage(${usage}%) reached threshold percent($kill_percent%), run: ${command}"
       eval $command
       
       # 执行完任务要即使休息，接着干容易疲劳

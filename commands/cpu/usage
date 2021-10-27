@@ -6,7 +6,7 @@ help() {
 }
 
 core() {
-  os_cpu_usage percent
+  os::cpu_usage percent
 }
 
 run() {

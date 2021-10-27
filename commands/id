@@ -12,7 +12,7 @@ core() {
     exit 0
   fi
 
-  os_machine_id
+  os::machine_id
 }
 
 run() {

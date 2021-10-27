@@ -35,16 +35,16 @@ core() {
   local option=$1
   case $option in
     "")
-      os_disk_usage percent
+      os::disk_usage percent
       ;;
     -u | --used)
-      os_disk_usage used
+      os::disk_usage used
       ;;
     -t | --total)
-      os_disk_usage total
+      os::disk_usage total
       ;;
     -p | --percent)
-      os_disk_usage percent
+      os::disk_usage percent
       ;;
     *)
       help
