@@ -58,7 +58,12 @@ fi
 #   StackOverflow: https://stackoverflow.com/questions/24014493/unable-to-resize-root-partition-on-ec2-centos/38463651#38463651
 which growpart >> /dev/null 2>&1
 if [ "$?" != "0" ]; then
-  sudo pm install growpart
+  which yum >> /dev/null 2>& 1
+  if [ "$?" != "0" ]; then
+    sudo zmicro fn pm install cloud-utils-growpart
+  else
+    sudo zmicro fn pm install growpart
+  fi
 fi
 
 sudo growpart $VOLUME 1
