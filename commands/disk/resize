@@ -59,7 +59,7 @@ fi
 which growpart >> /dev/null 2>&1
 if [ "$?" != "0" ]; then
   which yum >> /dev/null 2>& 1
-  if [ "$?" != "0" ]; then
+  if [ "$?" = "0" ]; then
     pm install cloud-utils-growpart
   else
     pm install growpart
