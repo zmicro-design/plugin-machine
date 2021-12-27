@@ -15,6 +15,7 @@ PARTITION=""
 VOLUME1=/dev/nvme0n1
 VOLUME2=/dev/xvda
 VOLUME3=/dev/vda
+VOLUME4=/dev/sda # GCP
 
 df -Th | grep $VOLUME1 >>/dev/null 2>&1
 if [ "$?" = "0" ] && [ "$VOLUME" = "" ]; then
@@ -32,6 +33,13 @@ df -Th | grep $VOLUME3 # >> /dev/null 2>&1
 if [ "$?" = "0" ] && [ "$VOLUME" = "" ]; then
   VOLUME=$VOLUME3
   PARTITION=${VOLUME}1
+fi
+
+# GCP
+df -Th | grep $VOLUME4 # >> /dev/null 2>&1
+if [ "$?" = "0" ] && [ "$VOLUME" = "" ]; then
+  VOLUME=$VOLUME4
+  PARTITION=$(lsblk -l | grep "part /$" | awk '{print $1}')
 fi
 
 if [ "$VOLUME" = "" ]; then
