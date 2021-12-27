@@ -17,6 +17,8 @@ VOLUME2=/dev/xvda
 VOLUME3=/dev/vda
 VOLUME4=/dev/sda # GCP
 
+PART=1
+
 df -Th | grep $VOLUME1 >>/dev/null 2>&1
 if [ "$?" = "0" ] && [ "$VOLUME" = "" ]; then
   VOLUME=$VOLUME1
@@ -40,6 +42,8 @@ df -Th | grep $VOLUME4 # >> /dev/null 2>&1
 if [ "$?" = "0" ] && [ "$VOLUME" = "" ]; then
   VOLUME=$VOLUME4
   PARTITION=$(lsblk -l | grep "part /$" | awk '{print $1}')
+  # @TODO
+  PART=2
 fi
 
 if [ "$VOLUME" = "" ]; then
@@ -60,13 +64,13 @@ which growpart >> /dev/null 2>&1
 if [ "$?" != "0" ]; then
   which yum >> /dev/null 2>& 1
   if [ "$?" = "0" ]; then
-    pm install cloud-utils-growpart
+    pm install -yqq cloud-utils-growpart
   else
-    pm install growpart
+    pm install -yqq growpart
   fi
 fi
 
-sudo growpart $VOLUME 1
+sudo growpart $VOLUME ${PART}
 
 # XFS
 # which xfs_growfs >> /dev/null 2>&1
