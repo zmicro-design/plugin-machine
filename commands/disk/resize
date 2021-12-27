@@ -56,6 +56,11 @@ fi
 # [SOLVED]
 #   AWS: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recognize-expanded-volume-linux.html?icmpid=docs_ec2_console
 #   StackOverflow: https://stackoverflow.com/questions/24014493/unable-to-resize-root-partition-on-ec2-centos/38463651#38463651
+which growpart >> /dev/null 2>&1
+if [ "$?" != "0" ]; then
+  sudo pm install growpart
+fi
+
 sudo growpart $VOLUME 1
 
 # XFS
