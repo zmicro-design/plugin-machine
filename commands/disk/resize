@@ -60,9 +60,9 @@ which growpart >> /dev/null 2>&1
 if [ "$?" != "0" ]; then
   which yum >> /dev/null 2>& 1
   if [ "$?" != "0" ]; then
-    sudo zmicro fn pm install cloud-utils-growpart
+    pm install cloud-utils-growpart
   else
-    sudo zmicro fn pm install growpart
+    pm install growpart
   fi
 fi
 
