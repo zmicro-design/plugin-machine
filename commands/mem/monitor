@@ -61,7 +61,8 @@ core() {
 
   while true; do
     local usage=$(zmachine mem usage)
-    if [ $usage -gt $threshold_percent ]; then
+    local usage_int=$(number::to_int $usage)
+    if [ $usage_int -gt $threshold_percent ]; then
       log::info "[$(timestamp)] memory usage(${usage}%) reached threshold percent($kill_percent%), run: ${command}"
       eval $command
       
@@ -71,7 +72,7 @@ core() {
       echo "[$(timestamp)] memory usage: $usage%"
     fi
 
-    local period=$((DEFAULT_MAX_CHECK_PEROID - $usage / $DEFAULT_MAX_CHECK_PEROID))
+    local period=$((DEFAULT_MAX_CHECK_PEROID - $usage_int / $DEFAULT_MAX_CHECK_PEROID))
     if [ $period -lt 1 ]; then
       period=1
     fi
