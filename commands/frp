@@ -2,14 +2,14 @@
 
 help() {
   echo "Usage:"
-  echo "  zmachine vscode <args...>"
+  echo "  zmachine frp <args...>"
   echo ""
 }
 
 check_dependencies() {
   which zvscode >> /dev/null 2>&1
   if [ "$?" != "0" ]; then
-    zmicro install vscode
+    zmicro install frp
   fi
 }
 
@@ -21,7 +21,7 @@ core() {
 
   check_dependencies
 
-  zvscode $@
+  zmicro frp $@
 }
 
 run() {

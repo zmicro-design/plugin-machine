@@ -2,14 +2,14 @@
 
 help() {
   echo "Usage:"
-  echo "  zmachine vscode <args...>"
+  echo "  zmachine lvm <args...>"
   echo ""
 }
 
 check_dependencies() {
-  which zvscode >> /dev/null 2>&1
+  which zlvm >> /dev/null 2>&1
   if [ "$?" != "0" ]; then
-    zmicro install vscode
+    zmicro install lvm
   fi
 }
 
@@ -21,7 +21,7 @@ core() {
 
   check_dependencies
 
-  zvscode $@
+  zmicro lvm $@
 }
 
 run() {
