@@ -1,0 +1,31 @@
+#!/bin/bash
+
+help() {
+  echo "Usage:"
+  echo "  zmachine veth <args...>"
+  echo ""
+}
+
+check_dependencies() {
+  which zveth >> /dev/null 2>&1
+  if [ "$?" != "0" ]; then
+    zmicro install veth
+  fi
+}
+
+core() {
+  if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+    help
+    exit 0
+  fi
+
+  check_dependencies
+
+  zmicro veth $@
+}
+
+run() {
+  core $@
+}
+
+run $@
