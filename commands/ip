@@ -74,7 +74,8 @@ get_internal_ip() {
 }
 
 get_external_ip() {
-  echo $(dig +short myip.opendns.com @resolver1.opendns.com)
+  # echo $(dig +short myip.opendns.com @resolver1.opendns.com)
+  echo $(os::network_ip)
 }
 
 run() {
