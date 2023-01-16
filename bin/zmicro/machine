@@ -1,34 +1,3 @@
 #!/bin/bash
 
-. $ZMICRO_HOME/core/env
-
-PLUGIN=machine
-
-help() {
-  zmicro plugin run ${PLUGIN} --help
-}
-
-dependency_check() {
-  if [ "$(plugin::exist ${PLUGIN})" = "false" ]; then
-    log::info "plugin ${PLUGIN} is required, installing ..."
-
-    zmicro plugin install ${PLUGIN}
-  fi
-}
-
-core() {
-  dependency_check
-
-  if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
-    help
-    exit 0
-  fi
-
-  zmicro plugin run ${PLUGIN} $@
-}
-
-run() {
-  core $@
-}
-
-run $@
+zmicro plugin run machine $@
